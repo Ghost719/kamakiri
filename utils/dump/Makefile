@@ -8,8 +8,8 @@ ASFLAGS :=
 CFLAGS := -std=gnu99 -Os -mthumb -mcpu=cortex-a9 -fno-builtin-printf -fno-strict-aliasing -fno-builtin-memcpy -mno-unaligned-access -Wall -Wextra
 LDFLAGS := -nodefaultlibs -nostdlib
 
-# Use bootrom function to send data
-CFLAGS += -DUSE_BROM_SEND_DATA
+# Use bootrom to send data
+#CFLAGS += -DUSE_BROM_SEND_DATA
 
 DUMP := dump
 
