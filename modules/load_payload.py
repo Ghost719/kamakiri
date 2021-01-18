@@ -71,7 +71,9 @@ def load_payload(dev):
 
     log("Let's rock")
     try:
-        udev.ctrl_transfer(0xA1, 0, 0, 10, 0)
+        # It's weird, but it works in very small cases
+        # TODO: find correct wIndex
+        udev.ctrl_transfer(0xA1, 0, 0, 3, 0)
     except usb.core.USBError as e:
         print(e)
 
