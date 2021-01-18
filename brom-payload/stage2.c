@@ -123,6 +123,26 @@ int main() {
             mmc_rpmb_write(&host, buf);
             break;
         }
+        case 0x4000: {
+            uint32_t address = recv_dword();
+            uint32_t size = recv_dword();
+            printf("Write %d Bytes to address 0x%08X\n", size, address);
+            if(recv_data(address, size, 0) == 0) {
+                printf("OK\n");
+                send_dword(0xD0D0D0D0);
+                //hex_dump((void *)address, size);
+            } else {
+                send_dword(0xF0F0F0F0);
+                printf("Read fail\n");
+            }
+            break;
+        }
+        case 0x4001: {
+            void (*jump_address)(void) = (void*) recv_dword();
+            printf("Jump to address 0x%08X\n", *jump_address);
+            jump_address();
+            break;
+        }
         case 0x5000: {
             uint32_t address = recv_dword();
             uint32_t size = recv_dword();
