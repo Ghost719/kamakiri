@@ -59,8 +59,8 @@ def load_payload(dev):
     dev.write32(addr, [0xA1000]) # 00 10 0A 00
     result = dev.read32(addr)
 
-    readl = 0x24
-    result = dev.read32(addr - 0x20, readl//4)
+    readl = 0x30
+    result = dev.read32(addr - 0x2c, readl//4)
 
     dev.write32(addr, 0)
 
@@ -71,9 +71,7 @@ def load_payload(dev):
 
     log("Let's rock")
     try:
-        # It's weird, but it works in very small cases
-        # TODO: find correct wIndex
-        udev.ctrl_transfer(0xA1, 0, 0, 3, 0)
+        udev.ctrl_transfer(0xA1, 0, 0, 37, 0)
     except usb.core.USBError as e:
         print(e)
 
