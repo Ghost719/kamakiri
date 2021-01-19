@@ -17,7 +17,7 @@ int main() {
 
     //This is so we don't get a USB-Timeout
     print("Send USB response\n");
-    send_usb_response(0,0,1);
+    send_usb_response(1,0,1);
 
     print("Entering command loop\n");
     send_dword(0xA1A2A3A4);
@@ -49,8 +49,15 @@ int main() {
         case 0x4001: {
             void (*jump_address)(void) = (void*) recv_dword();
             //printf("Jump to address 0x%08X\n", *jump_address);
-	    print("Jump\n");
+	        print("Jump\n");
             jump_address();
+            break;
+        }
+        case 0x5000: {
+            uint32_t address = recv_dword();
+            uint32_t size = recv_dword();
+            //printf("Read %d Bytes from address 0x%08X\n", size, address);
+            send_data(address, size);
             break;
         }
         case 0x3000: {
